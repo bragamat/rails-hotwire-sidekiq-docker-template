@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-gray-900">
   <head>
-    <title>Speed Point</title>
+    <title>Mono</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta charset="utf-8">
@@ -22,18 +22,10 @@
   </head>
 
   <body class="h-full w-full" data-flash-messages="<%= JSON.dump(flash.to_a) %>">
-    <div>
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-      <%= render partial: 'shared/sidebar' %>
-      <div class="xl:pl-72">
-        <%= render partial: 'shared/sticky_search' %>
-        <main class="lg:pr-96">
-          <%= render partial: 'shared/header' %>
-          <%= yield %>
-        </main>
-        <%= render partial: 'shared/activities' %>
+    <main class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <%= yield %>
       </div>
-    </div>
+    </main>
   </body>
 </html>

@@ -46,3 +46,6 @@ lint.front:
 
 lint.ruby:
 	bundle exec rubocop -A
+
+console:
+	rails console
