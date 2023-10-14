@@ -1,0 +1,67 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-performance
+  - rubocop-capybara
+  - rubocop-factory_bot
+
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'Gemfile'
+    - 'Gemfile.lock'
+    - 'Rakefile'
+    - 'Guardfile'
+    - 'node_modules/**/*'
+    - 'config/**/*'
+    - 'tmp/**/*'
+  TargetRubyVersion: 3.2.2
+  NewCops: enable
+
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - 'spec/**/*'
+    - 'config/**/*'
+    - 'app/models/application_record.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Style/FormatStringToken:
+  EnforcedStyle: template
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Rails/FilePath:
+  EnforcedStyle: arguments
+
+RSpec/HookArgument:
+  EnforcedStyle: each
+
+Lint/EmptyBlock:
+  Enabled:  false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+# RSpec/ContextWording:
+#   Prefixes:
+#     - when
+#     - given
+
+RSpec/ExampleLength:
+  Max: 15

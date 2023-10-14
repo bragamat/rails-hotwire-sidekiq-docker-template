@@ -1,0 +1,54 @@
+<header class="flex items-center justify-between border-b border-white/5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+  <h1 class="text-base font-semibold leading-7 text-white"><%= yield :page_title%></h1>
+
+  <!-- Sort dropdown -->
+  <div class="relative" data-controller="sort-list">
+    <button
+      type="button"
+      class="flex items-center gap-x-1 text-sm font-medium leading-6 text-white"
+      id="sort-menu-button"
+      aria-expanded="false"
+      aria-haspopup="true"
+      data-action="click->sort-list#showOptions"
+    >
+      Sort by
+      <svg class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
+      </svg>
+    </button>
+
+    <!--
+      Dropdown menu, show/hide based on menu state.
+
+      Entering: "transition ease-out duration-100"
+      From: "transform opacity-0 scale-95"
+      To: "transform opacity-100 scale-100"
+      Leaving: "transition ease-in duration-75"
+      From: "transform opacity-100 scale-100"
+      To: "transform opacity-0 scale-95"
+    -->
+    <div
+      class="
+      absolute transform opacity-0 scale-95 transition ease-out duration-100 right-0 z-10 mt-2.5 w-40
+      origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5
+      focus:outline-none"
+      role="menu"
+      aria-orientation="vertical"
+      aria-labelledby="sort-menu-button"
+      tabindex="-1"
+      id="sort-list--options-container"
+    >
+
+      <button class="w-full flex justify-end pr-4" data-action="click->sort-list#hideOptions">
+        <span>x</span>
+      </button>
+      <div>
+        <!-- Active: "bg-gray-50", Not Active: "" -->
+        <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900" role="menuitem" tabindex="-1" id="sort-menu-item-0">Name</a>
+        <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900" role="menuitem" tabindex="-1" id="sort-menu-item-1">Date updated</a>
+        <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900" role="menuitem" tabindex="-1" id="sort-menu-item-2">Environment</a>
+      </div>
+    </div>
+  </div>
+</header>
+

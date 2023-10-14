@@ -1,0 +1,83 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  POSTGRES_USER: docker
+  POSTGRES_PASSWORD: docker
+  POSTGRES_DB: docker
+  POSTGRES_HOST: localhost
+  RAILS_ENV: test
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        # Docker Hub image
+        image: redis
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2 # Adjust the Ruby version as needed
+          bundler-cache: true
+
+      - name: Install Bundler
+        run: gem install bundler
+
+      - name: Install Dependencies
+        run: bundle install
+        env:
+          RAILS_ENV: test
+
+      - name: Create and Migrate Test Database
+        env:
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
+          RAILS_ENV: test
+        run: |
+          bin/rails db:create db:schema:load
+
+      - name: Yarn install
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.5.1
+      - run: yarn install; yarn build; yarn build:css
+
+      - name: rails assets:precompile
+        run: bin/rails assets:precompile # Replace with your test command if you're using a different testing framework
+
+      - name: Run Tests
+        env:
+          REDIS_URL: redis://localhost:6379/1
+        run: bundle exec rspec # Replace with your test command if you're using a different testing framework
